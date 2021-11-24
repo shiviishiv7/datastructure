@@ -1,0 +1,51 @@
+class Node1{
+    data:number;
+    next:Node1 | null;
+    constructor(data:number){
+        this.data = data;
+        this.next = null;
+    }
+}
+class Queue{
+    rear:Node1|null;
+    front:Node1|null;
+    constructor(){
+        this.rear = null;
+        this.front = null
+    }
+    enqueue(data:number){
+        if(this.isEmpty()){
+            this.front = this.rear = new Node1(data);
+         //   console.log(data)
+        }else {
+            let node:Node1 = new Node1(data)
+            this.rear.next = node;
+            this.rear = node
+      //     console.log(data)
+        }
+    }
+    dequeue(){
+        let data:number = -1
+        if(!this.isEmpty()){
+             data = this.front.data;
+            this.front = this.front.next;
+        }
+        return data;
+    }
+    isEmpty(){
+        if(this.rear ==null && this.front==null)return true
+        else return false
+    }
+    display(node:Node1|null){
+       if(node){
+            console.log(node.data)
+            this.display(node.next)
+       }
+    }
+    getRoot(){return this.front}
+}
+let q:Queue = new Queue();
+for(let i=0;i<10;i++){
+q.enqueue(i+10)
+}
+q.display(q.getRoot())
