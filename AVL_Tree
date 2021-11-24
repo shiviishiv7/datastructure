@@ -1,0 +1,92 @@
+class Node1{
+        data:number  = 0;
+        left:Node1 |null |undefined= null;
+        right:Node1 |null|undefined= null;
+        height:number = 0;
+        constructor(data:number){this.data = data;}
+}
+class NodeList1{
+    start:Node1|null |undefined = null;
+    setRoot(node:Node1|null|undefined){this.start =node}
+    getRoot():Node1|null|undefined{return this.start}
+    display(node:Node1|null|undefined){
+        if(node){
+                     this.display(node.left)
+            console.log(node.data)
+   
+            this.display(node.right)
+        }
+    }
+    LL(node:Node1):Node1{
+        let temp:Node1 = node.right.left;
+        let tempO:Node1 = node.right;
+        node.right = temp;
+        tempO.left = node;
+        return tempO;
+    }
+    RR(node:Node1):Node1{
+        let temp:Node1 = node.left.left;
+        let tempO:Node1 = node.left;
+        node.left = temp;
+        tempO.right = node;
+        return tempO;
+    }
+    RL(node:Node1):Node1{
+        let tempL:Node1 = node.right.left.left;
+        let tempR:Node1 = node.right.left.right;
+        let tempO:Node1 = node.right.left;
+        tempO.left = node;
+        tempO.right= node.right
+        node.right.left = tempR;
+        node.right = tempL;
+        return tempO;   
+    }
+    LR(node:Node1):Node1{
+        let tempL:Node1 = node.left.right.left;
+        let tempR:Node1 = node.left.right.right;
+        let tempO:Node1 = node.left.right;
+        tempO.left = node;
+        tempO.right= node.left;
+        node.left.right = tempL;
+        node.left = tempL;
+        return tempO;   
+    }
+    
+    insert(node:Node1|null|undefined,data:number):Node1{
+        if(node== null)return new Node1(data);
+        else if(node.data>data)node.left = this.insert(node.left,data);
+        else if(node.data<data)node.right = this.insert(node.right,data);
+        else return node;
+        node.height = this.getHeight(node);
+        let balance = this.getBalance(this.getHeight(node.left),this.getHeight(node.right));
+        if(balance > 1 && node.left.data>data){
+                    node = this.RR(node);
+        }else if(balance > 1 && node.left.data<data){
+            node = this.LR(node);
+        }else if(balance < - 1 && node.right.data>data ){
+            node = this.RL(node);
+        }else if(balance < -1 && node.right.data<data){
+            node = this.LL(node);
+        }else ;
+        return node
+    }
+    getBalance(left:number,right:number):number{
+        return left-right;
+    }
+    getHeight(node:Node1|null|undefined):number{
+        if(node==null)return -1;
+        let left:number = this.getHeight(node.left);
+        let right:number = this.getHeight(node.right);
+        return left>right?left+1:right+1;
+    }
+}
+
+let nodelist:NodeList1 = new NodeList1()
+nodelist.setRoot(nodelist.insert(null,10))
+nodelist.setRoot(nodelist.insert(nodelist.getRoot(),14))
+nodelist.setRoot(nodelist.insert(nodelist.getRoot(),20))
+nodelist.setRoot(nodelist.insert(nodelist.getRoot(),22))
+nodelist.setRoot(nodelist.insert(nodelist.getRoot(),29))
+nodelist.setRoot(nodelist.insert(nodelist.getRoot(),40))
+nodelist.setRoot(nodelist.insert(nodelist.getRoot(),45))
+nodelist.display(nodelist.getRoot())
