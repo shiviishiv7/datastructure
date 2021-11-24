@@ -1,0 +1,55 @@
+class Queue{
+    rear:number;
+    front:number
+    array:number[];
+    size:number;
+    constructor(size:number){
+        this.size = size;
+        this.array = new Array(size)
+        this.rear = -1;
+        this.front = -1;
+    }
+    enqueue(data:number){
+        if(!this.isFull()){
+            this.array[++this.rear] =data
+        }
+    }
+    dequeue():number{
+        let num:number = -1;
+        if(!this.isEmpty()){
+            num = this.array[++this.front];
+        }
+        return num;
+    }
+    isEmpty():boolean{
+        if(this.rear==this.front)return true;
+        return false;
+    }
+    isFull():boolean{
+        if(this.size == this.rear+1)return true;
+        return false;
+    }
+    display(){
+        console.log('array'+this.array)
+        console.log('front'+this.front)
+        console.log('rear'+this.rear)
+    }
+    peek():number{
+        if(!this.isEmpty())return this.array[0]
+        return -1;
+    }
+}
+let q:Queue = new Queue(7);
+for(let i:number = 0;i<6;i++){
+q.enqueue(i)
+}
+console.log('peek'+q.peek())
+q.display()
+console.log(q.dequeue())
+console.log(q.dequeue())
+console.log(q.dequeue())
+console.log(q.dequeue())
+console.log(q.dequeue())
+console.log(q.dequeue())
+console.log(q.dequeue())
+console.log(q.dequeue())
