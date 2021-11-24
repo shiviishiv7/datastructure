@@ -1,0 +1,95 @@
+class Node1{
+    data:number;
+    next:Node1|null;
+    constructor(data:number){
+        this.data = data;
+        this.next = null;
+        this.prev = null;
+    }
+}
+class DEqueue{
+    rear:Node1 |null;
+    front:Node1 |null;
+    constructor(){
+        this.rear = null
+        this.front = null
+    }
+    enqueueRear(data:number){
+        if(this.isEmpty()){
+            this.front = this.rear = new Node1(data);
+        }
+        else{
+            let node:Node1 = new Node1(data);
+            node.prev = this.rear;
+            this.rear.next = node;
+            this.rear = node;
+        }
+    }
+    dequeueRear(){
+        let data:number = -1
+        if(this.isEmpty()){
+            console.log('dequeueRear Empty')
+            return data
+        }
+        else {
+            data = this.rear.data;
+            if(this.rear.next==null){
+                this.rear = null
+                this.front = null
+                return data
+            }
+            this.rear.prev.next = null;
+            this.rear = this.rear.prev;
+        }
+        return data
+    }
+    enqueueFront(data:number){
+        if(this.isEmpty()){
+            this.front = this.rear = new Node1(data);
+        
+        }else {
+            let node:Node1 = new Node1(data)
+                this.front.prev = node;
+                node.next = this.front;
+                this.front = node
+        }
+    }
+    dequeueFront(){
+        let data:number = -1
+        if(this.isEmpty()){
+            console.log('dequeueFront Empty')
+            return data
+        }else{
+                data = this.front.data;
+                if(this.front.next==null){
+                    console.log('null')
+                    this.front = null
+                    this.rear = null
+                   return data
+                }
+                this.front.next.prev = null;
+                this.front = this.front.next;
+        }
+        return data
+    }
+    isEmpty(){
+        if(this.rear == null && this.front == null)return true
+        return false
+    }
+    getRoot(){return this.front}
+    display(node:Node1|null){
+        if(node){
+            console.log(node.data)
+            this.display(node.next)
+        }
+    }
+}
+let dq:DEqueue = new DEqueue()
+
+dq.enqueueRear(10)
+dq.display(dq.getRoot())
+dq.dequeueRear()
+dq.enqueueFront(12)
+dq.enqueueFront(34)
+dq.enqueueFront(20)
+dq.display(dq.getRoot())
