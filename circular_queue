@@ -1,0 +1,58 @@
+class CircularQueue{
+    rear:number ;
+    front:number;
+    array:number[];
+    size:number;
+    constructor(size:number){
+        this.size = size;
+        this.rear = 0;
+        this.front = 0;
+        this.array = new Array(size)
+        
+    }
+    enqueue(data:number){
+      // console.log(data)
+        if(!this.isFull()){
+        //    console.log(data)
+            this.rear = (this.rear+1)%this.size
+            this.array[this.rear] =data;
+        }
+    }
+    dequeue(){
+        if(!this.isEmpty()){
+            this.front = (this.front+1)%this.size
+            let value = this.array[this.front]
+            this.array[this.front] = -1
+         //    console.log('front'+this.front+'\t'+this.rear+'\t'+this.array)
+            return value
+        }
+       
+        return -1;
+    }
+    isFull():boolean{
+        if((this.rear + 1)%this.size == this.front){
+            return true
+        }
+        return false;
+    }
+    isEmpty(){
+        if(this.rear==this.front)return true
+        return false
+    }
+    display(){
+        console.log(this.array)
+    }
+}
+let c:CircularQueue = new CircularQueue(5);
+
+for(let i:number=0;i<5;i++){
+    c.enqueue(i)
+}
+c.display()
+
+for(let i:number=0;i<5;i++){
+    c.dequeue()
+    c.enqueue(i+10)
+    c.display()
+
+}
