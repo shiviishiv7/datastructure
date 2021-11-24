@@ -1,0 +1,52 @@
+class Node1{
+    data:number;
+    next:Node1|null;
+    constructor(data:number){
+        this.data = data;
+        this.next = null;
+    }
+}
+class CircularLinkedQueue{
+    rear:Node1 |null;
+    front:Node1 |null;
+    constructor(){
+        this.rear = null
+        this.front = null
+    }
+    enqueue(data:number){
+        if(this.isEmpty()){
+            this.front = this.rear = new Node1(data);
+            this.front.next = this.front;
+        }else {
+            let node:Node1 = new Node1(data);
+            node.next = this.front;
+            this.rear.next = node;
+            this.rear = node;
+        }
+    }
+    dequeue(){
+        let data:number = -1
+        if(!this.isEmpty()){
+            data = this.front.data;
+            this.front = this.front.next;
+            this.rear.next = this.front;
+        }
+        return data
+    }
+    isEmpty():boolean{
+        if(this.rear == null && this.front == null)return true;
+        return false
+    }
+    getRoot(){return this.front}
+    display(node:Node1|null){
+        if(node.next != this.front){
+            console.log(node.data)
+            this.display(node.next)
+
+        }
+    }
+}
+let c:CircularLinkedQueue = new CircularLinkedQueue()
+for(let i=0;i<10;i++)
+    c.enqueue(10+i)
+c.display(c.getRoot())
