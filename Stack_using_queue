@@ -1,0 +1,64 @@
+class TwoSTackQueue{
+    array1:number[];
+    array2:number[];
+    top1:number = -1
+    top2:number = -1;
+    size:number
+    constructor(size:number){
+        this.size = size
+        this.array1 = new Array(size)
+        this.array2 = new Array(size)
+    }
+    enqueue(data:number){
+            if(!this.isFullArray1()){
+               this.array1[ ++this.top1]= data;
+            }
+    }
+    dequeue(){
+        if(this.isEmptyArray2()){
+                if(this.isEmptyArray1()){
+                    console.log('stack one is also empty ')
+                    return;
+                }else{  
+                        while(this.top1>=0){
+                            this.array2[++this.top2] = this.array1[this.top1--]
+                        }
+                        console.log(this.array2[this.top2--])
+                }
+        }else  console.log(this.array2[this.top2--])
+    }
+    isFullArray1(){
+        if(this.top1 == this.size-1)return true
+        return false
+    }
+    isEmptyArray1(){
+        if(this.top1==-1)return true
+        return false
+    }
+    isEmptyArray2(){
+        if(this.top2==-1)return true
+        return false
+    }
+    
+    isFullArray2(){
+        if(this.top2 == this.size-1)return true
+        return false
+    }
+    
+}
+
+let st:TwoSTackQueue = new TwoSTackQueue(10)
+st.dequeue()
+st.enqueue(10);
+for(let i=0;i<10;i++){
+    st.enqueue(i+10)
+}
+st.dequeue()
+
+st.dequeue()
+
+st.dequeue()
+
+st.dequeue()
+
+st.dequeue()
