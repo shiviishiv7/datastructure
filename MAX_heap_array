@@ -1,0 +1,105 @@
+class PQ{
+    array:number[] ;
+    size:number;
+    length:number
+    constructor(length:number){
+        this.size = -1;
+        this.length = length
+        this.array = new Array(length)
+    }
+    enqueue(data:number){
+        if(!this.isFull()){
+            this.array[++this.size] = data;
+            let temp:number = this.size
+            if(temp==0)return;
+            while(temp!=0){
+                let p:number = this.parentIndex(temp);
+                if(this.array[temp]>this.array[p]){
+                    let swap:number = this.array[p];
+                    this.array[p] = this.array[temp]
+                    this.array[temp] = swap;
+                    temp = p
+                }else break
+            }
+        }
+    }
+    dequeue(){
+        let data:number;
+        if(!this.isEmpty()){
+            if(this.size==0){
+            
+            data = this.array[this.size];
+            --this.size ;
+            //return data;
+        }else if(this.size==1){
+             data = this.array[0];
+            this.array[0]=this.array[this.size--]
+           //  return data
+        }else {
+        
+            let i:number = 0;
+             data= this.array[i];
+            this.array[i] = this.array[this.size];
+            --this.size;
+            while((i*2+2)<this.size){
+                let l:number = this.childLeft(i);
+                let r:number = this.childRight(i)
+                if(this.array[l]>this.array[r]){
+                    if(this.array[l]>this.array[i]){
+                         let swap:number = this.array[l];
+                    this.array[l] = this.array[i]
+                    this.array[i] = swap;
+                    i = l;
+                    }else break
+                }else {
+                    if(this.array[r]>this.array[i]){
+                    let swap:number = this.array[r];
+                    this.array[r] = this.array[i]
+                    this.array[i] = swap;
+                    i = r;
+                    }else break
+                }
+            }
+        }
+            this.array[this.size+1] =data
+
+        }
+    }
+    childLeft(index:number){return (2*index)+1}
+    childRight(index:number){return (2*index)+2}
+    isEmpty(){
+        if(this.size == -1)return true;
+        return false
+    }
+    display(){
+        console.log(this.array)
+    }
+    parentIndex(index:number){
+        if(index%2==0){
+            --index;
+            return Math.floor(index/2);
+        }
+        return Math.floor(index/2)
+    }
+    isFull(){
+        if(this.length==this.size+1)return true;
+        return false
+    }
+}
+let pq:PQ = new PQ(10);
+// pq.enqueue(11)
+// pq.enqueue(12)
+// pq.enqueue(15)
+// pq.enqueue(9)
+// pq.enqueue(20)
+// pq.display()
+
+for(let i=0;i<10;i++){
+    pq.enqueue(Math.round(Math.random()*100));
+
+}
+pq.display()
+for(let i=0;i<10;i++){
+    pq.dequeue()
+}
+pq.display()
