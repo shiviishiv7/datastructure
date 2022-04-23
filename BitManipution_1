@@ -1,0 +1,10 @@
+  private static void nthBitOff(int x, int n) {
+        
+        int a = (x^(1<<n));
+        System.out.println(a);
+    }
+
+    private static void nthBitOn(int x, int n) {
+        int a = (x|(1<<n));
+        System.out.println(a);
+    }
