@@ -1,0 +1,91 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Solution {
+    public static void main(String[] args) {
+        Graph graph = new Graph(8);
+        graph.insertData();
+        int ap = graph.AP();
+        System.out.println(ap);
+    }
+    static class Graph{
+        private  int size;
+        int parent[];
+        int disc[];
+        int low[];
+        boolean result[];
+        boolean visited[];
+        int time =0;
+        HashMap<Integer,ArrayList<Integer>>map = new HashMap<>();
+        public Graph(int size){
+            this.size = size;
+            for (int i = 0; i <= size; i++) {
+                map.put(i,new ArrayList<Integer>());
+            }
+        }
+        //to find articulation point you need four array
+        //parent array for vertex,discovery time array for vertex,
+        //low->(other discoverty time array)
+        //result array and boolean visited array for DFS
+        //simple run a dfs and fill the array and 
+        int AP(){
+            
+            
+            
+            time = 1;
+            
+            parent = new int[size+1];
+            disc = new int[size+1];
+            low = new int[size+1];
+            result = new boolean[size+1];
+            visited = new boolean[size+1];
+            parent[1]=-1;
+            visited[1]=true;
+            dfs(1);
+            int count =0;
+            for (int i = 0; i < size+1; i++) {
+                if(result[i])count++;
+                System.out.print(i+" "+result[i]+"\t\t");
+            }
+            return count;
+        }
+
+        private void dfs(int src) {
+            disc[src]=low[src]=time++;
+            int count =0;
+            visited[src]=true;
+            for (int i:map.get(src)) {
+                if(parent[src]==i)continue;  //if node is your parent do nothing similar to DFS
+                else if(visited[i]){
+                    low[src]= Math.min(low[src],disc[i]);  //if already visited and and you can access that node so you can update another path
+                    
+                }else {
+                    parent[i]=src;count++;//make parent
+                    dfs(i);//call bfs
+                    low[src]=Math.min(low[src],low[i]);//update low array 
+                    if (parent[src]==-1){
+                        if(count>=2)result[src]=false;
+                    }else if(low[i]>=disc[src])result[src]=true;
+                }
+            }
+        }
+
+        public void insertData(){
+         insert(1,8);
+            insert(1,2);
+            insert(2,5);
+            insert(5,8);
+            insert(2,4);
+            insert(4,3);
+            insert(3,6);
+            insert(6,7);
+            insert(3,7);
+        }
+
+        private void insert(int src, int dest) {
+            map.get(src).add(dest);
+            map.get(dest).add(src);
+        }
+
+    }
+}
