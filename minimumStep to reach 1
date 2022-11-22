@@ -1,0 +1,33 @@
+
+public class Main {
+   static HashMap<Integer,Integer> dp = new HashMap<>();
+    public static void main(String[] args) {
+//        System.currentTimeMillis();
+        int i = minimumStep(1000);
+        System.out.println(i);
+    }
+
+    private static int minimumStep(int value) {
+//        if(dp.containsKey(value))return dp.get(value);
+        if(value==1)return 0;
+        int three = Integer.MAX_VALUE;
+        if(value%3==0)
+            three = minimumStep(value/3);
+        int one = minimumStep(value-1);
+        int two = Integer.MAX_VALUE;
+        if(value%2==0)
+            two = minimumStep(value/2);
+
+
+        int i = getMinimum(one, two, three) + 1;
+//        dp.put(value,i);
+        return i;
+    }
+    private static int getMinimum(int one,int two,int three){
+        PriorityQueue<Integer>pq = new PriorityQueue<>();
+                pq.add(one);
+                pq.add(two);
+                pq.add(three);
+                return pq.remove();
+    }
+}
